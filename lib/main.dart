@@ -27,8 +27,10 @@ class MyApp extends StatelessWidget {
             ),
       ),
       home: CategoryScreen(),
+//      initialRoute: "/", // this parameter is used instead of 'home'
       routes: {
-        "/category-recipes": (ctx) => CategoryRecipesScreen()
+//        "/": (ctx) => CategoryScreen(),
+        CategoryRecipesScreen.ROUTE_NAME: (ctx) => CategoryRecipesScreen(),
       },
     );
   }
