@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/category_recipes_screen.dart';
+
 class CategoryItem extends StatelessWidget {
   final String id;
   final String title;
@@ -13,18 +15,8 @@ class CategoryItem extends StatelessWidget {
   }) : super(key: key);
 
   void _openCategoryScreen(BuildContext context) {
-/*
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext ctx) => CategoryRecipesScreen(
-          categoryId: id,
-          categoryTitle: title,
-        ),
-      ),
-    );
-*/
     Navigator.of(context).pushNamed(
-      "/category-recipes",
+      CategoryRecipesScreen.ROUTE_NAME,
       arguments: {
         "id": id,
         "title": title,

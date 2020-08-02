@@ -28,9 +28,9 @@ class Meal {
     @required this.duration,
     @required this.ingredients,
     @required this.steps,
-    @required this.isGlutenFree,
-    @required this.isVegan,
-    @required this.isVegetarian,
-    @required this.isLactoseFree,
+    this.isGlutenFree = false,
+    this.isVegan = false,
+    this.isVegetarian = false,
+    this.isLactoseFree = false,
   });
 }

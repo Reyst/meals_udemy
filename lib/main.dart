@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meals/screens/category/category_recepies_screen.dart';
 
-import 'screens/categories/category_screen.dart';
+import 'route_table.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,12 +25,9 @@ class MyApp extends StatelessWidget {
               bodyText2: TextStyle(color: Color.fromRGBO(20, 51, 51, 1)),
             ),
       ),
-      home: CategoryScreen(),
-//      initialRoute: "/", // this parameter is used instead of 'home'
-      routes: {
-//        "/": (ctx) => CategoryScreen(),
-        CategoryRecipesScreen.ROUTE_NAME: (ctx) => CategoryRecipesScreen(),
-      },
+//      home: CategoryScreen(),
+      initialRoute: "/", // this parameter is used instead of 'home'
+      routes: RouteProvider.routes,
     );
   }
 }
