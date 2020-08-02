@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
             ),
       ),
 //      home: CategoryScreen(),
-      initialRoute: "/", // this parameter is used instead of 'home'
+//      initialRoute: "/", // this parameter is used instead of 'home'
       routes: RouteProvider.routes,
     );
   }
