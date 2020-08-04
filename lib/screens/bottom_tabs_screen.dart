@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/main_app_bar.dart';
 import '../widgets/main_drawer.dart';
+import 'favorites_screen.dart';
 import 'category_screen.dart';
 
 class BottomTabsScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _BottomTabsScreenState extends State<BottomTabsScreen> {
     ),
     Page(
       title: 'Your favorite meals',
-      screen: const Center(child: const Text("Favorites")),
+      screen: FavoritesScreen(),
       tab: BottomNavigationBarItem(
         icon: Icon(Icons.star),
         title: Text('Favorites'),
