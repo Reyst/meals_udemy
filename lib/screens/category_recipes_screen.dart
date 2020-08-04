@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../models/meal.dart';
 import '../data/data_provider.dart';
 import '../widgets/meal_item.dart';
 
-class CategoryRecipesScreen extends StatelessWidget {
+class CategoryRecipesScreen extends StatefulWidget {
   static const String ROUTE = "/category-recipes";
 
   final String categoryTitle;
@@ -22,17 +23,31 @@ class CategoryRecipesScreen extends StatelessWidget {
       : this(categoryId: _obtainArguments(context)["id"], categoryTitle: _obtainArguments(context)["title"]);
 
   @override
-  Widget build(BuildContext context) {
-    final meals =
-        DataProvider.DUMMY_MEALS.where((meal) => meal.categories.contains(categoryId)).toList(growable: false);
+  _CategoryRecipesScreenState createState() => _CategoryRecipesScreenState();
+}
 
+class _CategoryRecipesScreenState extends State<CategoryRecipesScreen> {
+  List<Meal> _meals;
+
+  @override
+  void initState() {
+    _meals = DataProvider.DUMMY_MEALS.where((meal) => meal.categories.contains(widget.categoryId)).toList();
+    super.initState();
+  }
+
+  void _removeItem(String itemId) {
+    setState(() => _meals.removeWhere((item) => item.id == itemId));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(categoryTitle),
+        title: Text(widget.categoryTitle),
       ),
       body: ListView.builder(
-        itemCount: meals.length,
-        itemBuilder: (ctx, index) => MealItem(meal: meals[index]),
+        itemCount: _meals.length,
+        itemBuilder: (ctx, index) => MealItem(meal: _meals[index], onResultAction: _removeItem),
       ),
     );
   }

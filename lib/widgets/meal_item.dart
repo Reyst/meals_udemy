@@ -7,17 +7,19 @@ import '../screens/meal_detail_screen.dart';
 
 class MealItem extends StatelessWidget {
   final Meal meal;
+  final Function(String) onResultAction;
 
   const MealItem({
     Key key,
     @required this.meal,
+    this.onResultAction
   }) : super(key: key);
 
   void _onMealSelection(BuildContext context) {
     Navigator.of(context).pushNamed(
       MealDetailScreen.ROUTE,
       arguments: meal,
-    );
+    ).then((mealId) => onResultAction(mealId as String));
   }
 
   String get complexityString {
