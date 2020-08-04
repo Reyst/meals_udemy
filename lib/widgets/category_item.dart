@@ -16,7 +16,7 @@ class CategoryItem extends StatelessWidget {
 
   void _openCategoryScreen(BuildContext context) {
     Navigator.of(context).pushNamed(
-      CategoryRecipesScreen.ROUTE_NAME,
+      CategoryRecipesScreen.ROUTE,
       arguments: {
         "id": id,
         "title": title,

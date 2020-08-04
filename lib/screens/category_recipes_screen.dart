@@ -4,7 +4,7 @@ import '../data/data_provider.dart';
 import '../widgets/meal_item.dart';
 
 class CategoryRecipesScreen extends StatelessWidget {
-  static const String ROUTE_NAME = "/category-recipes";
+  static const String ROUTE = "/category-recipes";
 
   final String categoryTitle;
   final String categoryId;

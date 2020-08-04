@@ -4,7 +4,7 @@ import 'package:meals/data/data_provider.dart';
 import '../models/meal.dart';
 
 class MealDetailScreen extends StatelessWidget {
-  static const String ROUTE_NAME = "/meal-details";
+  static const String ROUTE = "/meal-details";
 
   final Meal meal;
 
@@ -20,9 +20,7 @@ class MealDetailScreen extends StatelessWidget {
         .toList(growable: false);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(meal.title),
-      ),
+      appBar: AppBar(title: Text(meal.title)),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

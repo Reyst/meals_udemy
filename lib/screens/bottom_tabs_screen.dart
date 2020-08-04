@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/main_app_bar.dart';
+import '../widgets/main_drawer.dart';
 import 'category_screen.dart';
 
 class BottomTabsScreen extends StatefulWidget {
@@ -32,7 +34,8 @@ class _BottomTabsScreenState extends State<BottomTabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(pages[_currentIndex].title)),
+      appBar: obtainMainAppBar(title: pages[_currentIndex].title, icon: Icons.restaurant_outlined),
+      drawer: MainDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         items: pages.map((item) => item.tab).toList(),
         onTap: _switchTo,
