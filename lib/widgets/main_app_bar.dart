@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-AppBar obtainMainAppBar({Key key, IconData icon, String title}) {
+AppBar obtainMainAppBar({Key key, IconData icon, String title, List<Widget> actions}) {
   return AppBar(
     key: key,
     leading: (icon != null ? _buildLeading(icon) : null),
     title: Text(title),
+    actions: actions,
   );
 }
 

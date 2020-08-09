@@ -3,6 +3,16 @@ import 'package:flutter/material.dart';
 import '../screens/filters_screen.dart';
 
 class MainDrawer extends StatelessWidget {
+  void _switchScreen(BuildContext context, String path, {bool replace = false}) {
+    var navigator = Navigator.of(context);
+    while (navigator.canPop()) navigator.pop();
+
+    if (replace)
+      navigator.pushReplacementNamed(path);
+    else
+      navigator.pushNamed(path);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -14,13 +24,13 @@ class MainDrawer extends StatelessWidget {
             context,
             Icons.restaurant_menu,
             'Meals',
-            () => Navigator.of(context).pushReplacementNamed("/"),
+            () => _switchScreen(context, "/", replace: true),
           ),
           _buildDrawerOption(
             context,
             Icons.settings,
             'Filters',
-            () => Navigator.of(context).pushReplacementNamed(FiltersScreen.ROUTE),
+            () => _switchScreen(context, FiltersScreen.ROUTE),
           ),
         ],
       ),
