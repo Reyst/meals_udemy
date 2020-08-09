@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
-
 import 'package:meals/models/affordability.dart';
 import 'package:meals/models/category.dart';
 import 'package:meals/models/complexity.dart';
 import 'package:meals/models/meal.dart';
 
 class DataProvider {
+  static const KEY_GLUTEN = "isGlutenFree";
+  static const KEY_VEGAN = "isVegan";
+  static const KEY_VEGETARIAN = "isVegetarian";
+  static const KEY_LACTOSE = "isLactoseFree";
+
+  static Map<String, bool Function(Meal)> _filterActions = {
+    KEY_GLUTEN: (meal) => meal.isGlutenFree == (filter[KEY_GLUTEN] ?? meal.isGlutenFree),
+    KEY_VEGAN: (meal) => meal.isVegan == (filter[KEY_VEGAN] ?? meal.isVegan),
+    KEY_VEGETARIAN: (meal) => meal.isVegetarian == (filter[KEY_VEGETARIAN] ?? meal.isVegetarian),
+    KEY_LACTOSE: (meal) => meal.isLactoseFree == (filter[KEY_LACTOSE] ?? meal.isLactoseFree),
+  };
+
+  static Map<String, bool> filter = {};
+
   static const DUMMY_CATEGORIES = const [
     Category(
       id: 'c1',
@@ -59,7 +72,7 @@ class DataProvider {
     ),
   ];
 
-  static const DUMMY_MEALS = const [
+  static const _DUMMY_MEALS = const [
     Meal(
       id: 'm1',
       categories: [
@@ -387,4 +400,8 @@ class DataProvider {
       isLactoseFree: true,
     ),
   ];
+
+  static List<Meal> get DUMMY_MEALS => _DUMMY_MEALS
+      .where((meal) => filter.keys.every((key) => _filterActions[key](meal)))
+      .toList();
 }

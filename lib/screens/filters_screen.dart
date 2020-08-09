@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/data_provider.dart';
 import '../widgets/main_app_bar.dart';
 import '../widgets/main_drawer.dart';
 
@@ -15,12 +16,25 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  final _filterMap = {
-    "isGlutenFree": _FilterItemState(),
-    "isVegan": _FilterItemState(),
-    "isVegetarian": _FilterItemState(),
-    "isLactoseFree": _FilterItemState(),
+  final _filterMap = <String, _FilterItemState>{
+    DataProvider.KEY_GLUTEN: _readFilterItemState(DataProvider.KEY_GLUTEN),
+    DataProvider.KEY_VEGAN: _readFilterItemState(DataProvider.KEY_VEGAN),
+    DataProvider.KEY_VEGETARIAN: _readFilterItemState(DataProvider.KEY_VEGETARIAN),
+    DataProvider.KEY_LACTOSE: _readFilterItemState(DataProvider.KEY_LACTOSE),
   };
+
+  static _FilterItemState _readFilterItemState(String key) {
+    final bool value = DataProvider.filter[key];
+    return value != null ? _FilterItemState(value: value, isUsed: true) : _FilterItemState();
+  }
+
+  void _applyFilters() {
+    DataProvider.filter = Map.fromIterable(
+      _filterMap.entries.where((element) => element.value.isUsed),
+      key: (entry) => entry.key,
+      value: (entry) => entry.value.value,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +42,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
       appBar: obtainMainAppBar(
           title: "Your Filters",
           icon: Icons.restaurant_outlined,
-          actions: [IconButton(icon: Icon(Icons.save_rounded), onPressed: () {})]),
+          actions: [IconButton(icon: Icon(Icons.save_rounded), onPressed: _applyFilters)]),
       drawer: MainDrawer(),
       body: Column(
         children: [
