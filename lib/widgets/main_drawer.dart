@@ -4,7 +4,7 @@ import '../screens/filters_screen.dart';
 
 class MainDrawer extends StatelessWidget {
   void _switchScreen(BuildContext context, String path, {bool replace = false}) {
-    var navigator = Navigator.of(context);
+    var navigator = Navigator.of(context, rootNavigator: true);
     while (navigator.canPop()) navigator.pop();
 
     if (replace)

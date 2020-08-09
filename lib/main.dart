@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:meals/screens/filters_screen.dart';
 
 import 'route_table.dart';
+import 'widgets/FilterState.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(FilterState(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

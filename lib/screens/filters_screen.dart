@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'file:///D:/Projects/Reyst_Flutter/udemy/meals/lib/widgets/FilterState.dart';
+import 'package:meals/models/MealFilter.dart';
 
 import '../widgets/main_app_bar.dart';
 import '../widgets/main_drawer.dart';
@@ -15,20 +17,48 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  final _filterMap = {
-    "isGlutenFree": _FilterItemState(),
-    "isVegan": _FilterItemState(),
-    "isVegetarian": _FilterItemState(),
-    "isLactoseFree": _FilterItemState(),
-  };
+
+  Map<String, _FilterItemState> _filterMap;
+
+  void initFilters(BuildContext context) {
+
+    _filterMap = {
+      MealFilter.KEY_GLUTEN: _readFilterItemState(MealFilter.KEY_GLUTEN),
+      MealFilter.KEY_VEGAN: _readFilterItemState(MealFilter.KEY_VEGAN),
+      MealFilter.KEY_VEGETARIAN: _readFilterItemState(MealFilter.KEY_VEGETARIAN),
+      MealFilter.KEY_LACTOSE: _readFilterItemState(MealFilter.KEY_LACTOSE),
+    };
+  }
+
+  _FilterItemState _readFilterItemState(String key) {
+    final bool value = _filterData.mealFilter.filter[key];
+    return value != null ? _FilterItemState(value: value, isUsed: true) : _FilterItemState();
+  }
+
+  void _applyFilters() {
+
+    final resultMap = Map.fromIterable(
+      _filterMap.entries.where((element) => element.value.isUsed),
+      key: (entry) => entry.key,
+      value: (entry) => entry.value.value,
+    );
+
+    final newFilter = MealFilter(filter: resultMap);
+    _filterData.setState(() => _filterData.updateFilter(newFilter));
+  }
+
+  FilterData _filterData;
 
   @override
   Widget build(BuildContext context) {
+    _filterData = FilterState.of(context);
+    if (_filterMap == null) initFilters(context);
+
     return Scaffold(
       appBar: obtainMainAppBar(
           title: "Your Filters",
           icon: Icons.restaurant_outlined,
-          actions: [IconButton(icon: Icon(Icons.save_rounded), onPressed: () {})]),
+          actions: [IconButton(icon: Icon(Icons.save_rounded), onPressed: _applyFilters)]),
       drawer: MainDrawer(),
       body: Column(
         children: [
@@ -105,7 +135,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
         ],
       ),
       SwitchListTile(
-        value: _filterMap[filterKey].value,
+        value: _filterMap[filterKey].value ?? false,
         onChanged: _filterMap[filterKey].isUsed ? (isChecked) => _changeSetting(filterKey, value: isChecked) : null,
         title: Text(title),
         subtitle: Text(description),
