@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:koin_flutter/koin_flutter.dart';
 
 import '../data/data_provider.dart';
 import '../widgets/category_item.dart';
@@ -6,13 +7,11 @@ import '../widgets/category_item.dart';
 class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return /*Scaffold(
-      appBar: AppBar(
-        title: const Text("Categories"),
-      ),
-      body: */ GridView(
+    final DataProvider dataProvider = get();
+
+    return GridView(
         padding: const EdgeInsets.all(12),
-        children: DataProvider.DUMMY_CATEGORIES
+        children: dataProvider.categories
             .map(
               (category) => CategoryItem(
                 id: category.id,

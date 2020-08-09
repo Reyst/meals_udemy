@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:meals/models/affordability.dart';
-import 'package:meals/models/category.dart';
-import 'package:meals/models/complexity.dart';
-import 'package:meals/models/meal.dart';
+import '../models/affordability.dart';
+import '../models/category.dart';
+import '../models/complexity.dart';
+import '../models/meal.dart';
 
 class DataProvider {
-  static const DUMMY_CATEGORIES = const [
+  static const _DUMMY_CATEGORIES = const [
     Category(
       id: 'c1',
       title: 'Italian',
@@ -59,7 +59,7 @@ class DataProvider {
     ),
   ];
 
-  static const DUMMY_MEALS = const [
+  static const _DUMMY_MEALS = const [
     Meal(
       id: 'm1',
       categories: [
@@ -387,4 +387,8 @@ class DataProvider {
       isLactoseFree: true,
     ),
   ];
+
+  List<Category> get categories => _DUMMY_CATEGORIES;
+  List<Meal> get meals => _DUMMY_MEALS;
+
 }

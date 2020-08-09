@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:koin_flutter/koin_flutter.dart';
 
+import '../data/filter_provider.dart';
 import '../data/data_provider.dart';
+import '../models/meal_filter.dart';
 import '../widgets/meal_item.dart';
 
 class CategoryRecipesScreen extends StatelessWidget {
@@ -23,8 +26,12 @@ class CategoryRecipesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final meals =
-        DataProvider.DUMMY_MEALS.where((meal) => meal.categories.contains(categoryId)).toList(growable: false);
+    final mealFilter = get<FilterProvider>()?.mealFilter ?? MealFilter();
+    final DataProvider dataProvider = get();
+    final meals = dataProvider.meals
+        .where((meal) => meal.categories.contains(categoryId))
+        .where((meal) => mealFilter.isMealMatch(meal))
+        .toList(growable: false);
 
     return Scaffold(
       appBar: AppBar(

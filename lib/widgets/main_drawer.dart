@@ -3,14 +3,8 @@ import 'package:flutter/material.dart';
 import '../screens/filters_screen.dart';
 
 class MainDrawer extends StatelessWidget {
-  void _switchScreen(BuildContext context, String path, {bool replace = false}) {
-    var navigator = Navigator.of(context);
-    while (navigator.canPop()) navigator.pop();
-
-    if (replace)
-      navigator.pushReplacementNamed(path);
-    else
-      navigator.pushNamed(path);
+  void _switchScreen(BuildContext context, String path, {bool replace = true}) {
+    Navigator.of(context).pushReplacementNamed(path);
   }
 
   @override

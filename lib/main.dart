@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:koin/koin.dart';
 
+import 'di/modules.dart';
 import 'route_table.dart';
 
 void main() {
+  startKoin((app) {
+    app.printLogger(level: Level.debug);
+    app.modules([providersModule]);
+  });
   runApp(MyApp());
 }
 

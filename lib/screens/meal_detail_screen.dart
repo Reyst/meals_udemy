@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:meals/data/data_provider.dart';
+import 'package:koin_flutter/koin_flutter.dart';
 
+import '../data/data_provider.dart';
 import '../models/meal.dart';
 
 class MealDetailScreen extends StatelessWidget {
@@ -14,7 +15,9 @@ class MealDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> categoryNames = DataProvider.DUMMY_CATEGORIES
+    final dataProvider = get<DataProvider>();
+
+    final List<String> categoryNames = dataProvider.categories
         .where((category) => meal.categories.contains(category.id))
         .map((item) => item.title)
         .toList(growable: false);

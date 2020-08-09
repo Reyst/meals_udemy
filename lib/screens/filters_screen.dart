@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:koin_flutter/koin_flutter.dart';
 
+import '../data/filter_provider.dart';
+import '../models/meal_filter.dart';
 import '../widgets/main_app_bar.dart';
 import '../widgets/main_drawer.dart';
 
@@ -15,20 +18,46 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  final _filterMap = {
-    "isGlutenFree": _FilterItemState(),
-    "isVegan": _FilterItemState(),
-    "isVegetarian": _FilterItemState(),
-    "isLactoseFree": _FilterItemState(),
-  };
+
+  FilterProvider _filterProvider;
+  Map<String, _FilterItemState> _filterMap;
+
+  void initFilters() {
+    _filterMap = {
+      MealFilter.KEY_GLUTEN: _readFilterItemState(MealFilter.KEY_GLUTEN),
+      MealFilter.KEY_VEGAN: _readFilterItemState(MealFilter.KEY_VEGAN),
+      MealFilter.KEY_VEGETARIAN: _readFilterItemState(MealFilter.KEY_VEGETARIAN),
+      MealFilter.KEY_LACTOSE: _readFilterItemState(MealFilter.KEY_LACTOSE),
+    };
+  }
+
+  _FilterItemState _readFilterItemState(String key) {
+    final bool value = _filterProvider.mealFilter.filter[key];
+    return value != null ? _FilterItemState(value: value, isUsed: true) : _FilterItemState();
+  }
+
+  void _applyFilters() {
+    final Map<String, bool> resultMap = Map.fromIterable(
+      _filterMap.entries.where((element) => element.value.isUsed),
+      key: (entry) => entry.key,
+      value: (entry) => entry.value.value,
+    );
+
+    _filterProvider.updateFilter(resultMap);
+
+    Navigator.of(context).pushReplacementNamed("/");
+  }
 
   @override
   Widget build(BuildContext context) {
+    _filterProvider = get<FilterProvider>();
+    if (_filterMap == null) initFilters();
+
     return Scaffold(
       appBar: obtainMainAppBar(
           title: "Your Filters",
           icon: Icons.restaurant_outlined,
-          actions: [IconButton(icon: Icon(Icons.save_rounded), onPressed: () {})]),
+          actions: [IconButton(icon: Icon(Icons.save_rounded), onPressed: _applyFilters)]),
       drawer: MainDrawer(),
       body: Column(
         children: [
