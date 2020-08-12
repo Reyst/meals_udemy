@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meals/screens/filters_screen.dart';
 
+import 'models/MealFilter.dart';
 import 'route_table.dart';
 import 'widgets/FilterState.dart';
 
 void main() {
-  runApp(FilterState(child: MyApp()));
+  runApp(FilterState(child: MyApp(), mealFilter: MealFilter.empty(),));
 }
 
 class MyApp extends StatelessWidget {

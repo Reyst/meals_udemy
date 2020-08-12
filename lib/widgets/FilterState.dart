@@ -1,51 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/MealFilter.dart';
 
-class FilterState extends StatefulWidget {
+class FilterState extends InheritedWidget {
+
   final Widget child;
-//  MealFilter filter;
+  final MealFilter mealFilter;
 
-  FilterState({
-    @required this.child,
-//    this.filter,
-  });
+  FilterState({@required this.child, @required this.mealFilter}) : super(child: child);
 
-  static FilterData of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<InheritedFilterState>()?.state;
+  static MealFilter of(BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<FilterState>()
+        ?.mealFilter;
   }
 
   @override
-  FilterData createState() => FilterData();
-}
+  bool updateShouldNotify(InheritedWidget oldWidget) => false;
 
-class FilterData extends State<FilterState> {
-  MealFilter mealFilter = MealFilter();
-
-//  FilterData() {
-//    mealFilter = widget.filter ?? MealFilter();
-//  }
-
-  void updateFilter(MealFilter newFilter) => setState(() => mealFilter = newFilter);
-
-  @override
-  Widget build(BuildContext context) {
-    return InheritedFilterState(
-      key: widget.key,
-      child: widget.child,
-      state: this,
-    );
-  }
-}
-
-class InheritedFilterState extends InheritedWidget {
-  final FilterData state;
-
-  InheritedFilterState({
-    Key key,
-    @required this.state,
-    @required Widget child,
-  }) : super(key: key, child: child);
-
-  @override
-  bool updateShouldNotify(InheritedFilterState old) => false;
 }

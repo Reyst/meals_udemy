@@ -23,7 +23,8 @@ class CategoryRecipesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mealFilter = FilterState.of(context).mealFilter;
+
+    final mealFilter = FilterState.of(context);
 
     final meals = DataProvider.DUMMY_MEALS
         .where((meal) => meal.categories.contains(categoryId))

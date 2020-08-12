@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'file:///D:/Projects/Reyst_Flutter/udemy/meals/lib/widgets/FilterState.dart';
-import 'package:meals/models/MealFilter.dart';
 
+import '../models/MealFilter.dart';
+import '../widgets/FilterState.dart';
 import '../widgets/main_app_bar.dart';
 import '../widgets/main_drawer.dart';
 
@@ -17,37 +17,32 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-
   Map<String, _FilterItemState> _filterMap;
 
   void initFilters(BuildContext context) {
-
-    _filterMap = {
-      MealFilter.KEY_GLUTEN: _readFilterItemState(MealFilter.KEY_GLUTEN),
-      MealFilter.KEY_VEGAN: _readFilterItemState(MealFilter.KEY_VEGAN),
-      MealFilter.KEY_VEGETARIAN: _readFilterItemState(MealFilter.KEY_VEGETARIAN),
-      MealFilter.KEY_LACTOSE: _readFilterItemState(MealFilter.KEY_LACTOSE),
-    };
+    _filterMap = Map<String, _FilterItemState>.fromIterable(
+      MealFilter.FILTER_KEYS,
+      key: (item) => item,
+      value: (item) => _readFilterItemState(item.toString()),
+    );
   }
 
   _FilterItemState _readFilterItemState(String key) {
-    final bool value = _filterData.mealFilter.filter[key];
+    final bool value = _filterData != null ? _filterData[key] : null;
     return value != null ? _FilterItemState(value: value, isUsed: true) : _FilterItemState();
   }
 
   void _applyFilters() {
-
-    final resultMap = Map.fromIterable(
+    final Map<String, bool> resultMap = Map<String, bool>.fromIterable(
       _filterMap.entries.where((element) => element.value.isUsed),
       key: (entry) => entry.key,
       value: (entry) => entry.value.value,
     );
 
-    final newFilter = MealFilter(filter: resultMap);
-    _filterData.setState(() => _filterData.updateFilter(newFilter));
+    _filterData?.updateFilter(resultMap);
   }
 
-  FilterData _filterData;
+  MealFilter _filterData;
 
   @override
   Widget build(BuildContext context) {
